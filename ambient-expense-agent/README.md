@@ -50,3 +50,21 @@ Example Payload (Auto-Approval):
 ## Security & Credentials
 - **No hardcoded API keys are included in this repository.** 
 - The project is configured to use Google Cloud Application Default Credentials (ADC) via `GOOGLE_GENAI_USE_ENTERPRISE="TRUE"` in the local environment.
+
+## Evaluations
+
+We use `agents-cli` to run local LLM-as-judge evaluations on synthetic datasets. This guarantees that the core policies of the agent (routing correctness and security containment) work effectively.
+
+To execute the evaluations locally:
+
+1. Generate synthetic traces across different scenarios (auto-approval, human review, PII leakage, prompt injections):
+   ```bash
+   uv run python tests/eval/generate_traces.py
+   ```
+
+2. Run the LLM-as-judge evaluation against the generated traces:
+   ```bash
+   uv run agents-cli eval grade --config tests/eval/eval_config.yaml
+   ```
+
+This generates comprehensive JSON and HTML scorecards in `artifacts/grade_results/` detailing the performance of the agent against rigorous test criteria.

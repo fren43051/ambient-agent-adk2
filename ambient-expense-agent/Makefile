@@ -1,4 +1,4 @@
-.PHONY: install ambient_server playground
+.PHONY: install ambient_server playground generate-traces grade
 
 install:
 	uv sync
@@ -8,3 +8,9 @@ ambient_server:
 
 playground:
 	uv run adk web .
+
+generate-traces:
+	uv run python tests/eval/generate_traces.py
+
+grade:
+	agents-cli eval grade --config tests/eval/eval_config.yaml
